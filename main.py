@@ -17,9 +17,12 @@ adapter = HTTPAdapter(max_retries=retry)
 session.mount('https://', adapter)
 print('trying to get xml...')
 var_url = urlopen('https://give-ur-xml.herokuapp.com/')
+import psutil
 print('trying to parse xml...')
 k = datetime.datetime.now()
+
 xmldoc = parse(var_url)
+print(psutil.virtual_memory().percent)
 print('starting main loop...')
 print(datetime.datetime.now() - k)
 for tag in xmldoc.iterfind('shop/offers/offer'):
@@ -48,3 +51,10 @@ for tag in xmldoc.iterfind('shop/offers/offer'):
 xmldoc.write('t.xml', encoding='utf-8')
 zf = zipfile.ZipFile("ostatki.zip", "w", compresslevel=8, compression=zipfile.ZIP_DEFLATED)
 zf.write('t.xml', compresslevel=8)
+
+files = {
+    'file': open('ostatki.zip', 'rb'),
+}
+
+response = requests.post('https://give-ur-xml.herokuapp.com/upload', files=files)
+print(response.json())
