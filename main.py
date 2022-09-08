@@ -50,11 +50,12 @@ for tag in xmldoc.iterfind('shop/offers/offer'):
     else:
         tag.find('count').text = str(response.json()['balance'])
 xmldoc.write('t.xml', encoding='utf-8')
+zf = zipfile.ZipFile("ostatki.zip", "w", compresslevel=8, compression=zipfile.ZIP_DEFLATED)
+zf.write('t.xml', compresslevel=8)
 
 files = {
-    'file': open('t.xml', 'rb'),
+    'file': open('ostatki.zip', 'rb'),
 }
 
-response = requests.post('https://sima-land-yandex.herokuapp.com/upload', files=files)
+response = requests.post('https://give-ur-xml.herokuapp.com/upload', files=files)
 print(response.json())
-print(db)
