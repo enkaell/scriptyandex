@@ -56,6 +56,7 @@ zf.write('t.xml', compresslevel=8)
 files = {
     'file': open('ostatki.zip', 'rb'),
 }
-
-response = requests.post('https://give-ur-xml.herokuapp.com/upload', files=files)
+response = requests.post('https://sima-land-yandex.herokuapp.com/upload', files=files)
+response = requests.post('https://puper-lis.herokuapp.com/upload', files=files)
+response = requests.post('https://young-lis.herokuapp.com/upload', files=files)
 print(response.json())
