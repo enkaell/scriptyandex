@@ -1,3 +1,5 @@
+import time
+
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -18,7 +20,7 @@ def main():
     adapter = HTTPAdapter(max_retries=retry)
     session.mount('https://', adapter)
     print('trying to get xml...')
-    zip = zipfile.ZipFile('ostatki.zip')
+    zip = zipfile.ZipFile('origin.zip')
     zip.extractall()
     import psutil
     print('trying to parse xml...')
@@ -43,17 +45,22 @@ def main():
                 }
             )
             print(response.json()['sid'])
-            if int(tag.find('count').text) < 10:
+            if int(tag.find('count').text) < 10 and str(response.json()['balance']) < 10:
                 tag.find('count').text = '0'
             else:
                 tag.find('count').text = str(response.json()['balance'])
     except Exception:
-        xmldoc.write('errors.xml', encoding='utf-8')
-    xmldoc.write('t.xml', encoding='utf-8')
+        pass
+    xmldoc.write('ostatki.xml', encoding='utf-8')
     zf = zipfile.ZipFile("yandex.zip", "w", compresslevel=8, compression=zipfile.ZIP_DEFLATED)
-    zf.write('t.xml', compresslevel=8)
+    zf.write('ostatki.xml', compresslevel=8)
     files = {
         'file': open('yandex.zip', 'rb'),
     }
+    zf.close()
+    time.sleep(10)
     response = requests.post('https://sima-land-yandex.herokuapp.com/upload', files=files)
     print(response.json())
+
+
+main()
