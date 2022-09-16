@@ -45,11 +45,12 @@ def main():
                 }
             )
             print(response.json()['sid'])
-            if int(tag.find('count').text) < 10 and str(response.json()['balance']) < 10:
+            if int(tag.find('count').text) < 10 and int(response.json()['balance']) < 10:
                 tag.find('count').text = '0'
             else:
                 tag.find('count').text = str(response.json()['balance'])
-    except Exception:
+    except Exception as e:
+        print(e)
         pass
     xmldoc.write('ostatki.xml', encoding='utf-8')
     zf = zipfile.ZipFile("yandex.zip", "w", compresslevel=8, compression=zipfile.ZIP_DEFLATED)
