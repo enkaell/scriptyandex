@@ -57,6 +57,3 @@ def main():
     }
     response = requests.post('https://sima-land-yandex.herokuapp.com/upload', files=files)
     print(response.json())
-
-
-main()
