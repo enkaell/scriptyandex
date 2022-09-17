@@ -59,7 +59,7 @@ def main():
         'file': open('yandex.zip', 'rb'),
     }
     zf.close()
-    time.sleep(10)
+    time.sleep(5)
     response = requests.post('https://sima-land-yandex.herokuapp.com/upload', files=files)
     print(response.json())
 
