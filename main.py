@@ -45,7 +45,7 @@ def main():
                 }
             )
             print(response.json()['sid'])
-            if int(response.json()['balance']) < 15 or response.status_code != 200:
+            if int(response.json()['balance']) < 15 or response.status_code != 200 or int(tag.find('count').text) < 10:
                 tag.find('count').text = '0'
             else:
                 tag.find('count').text = str(response.json()['balance'])
