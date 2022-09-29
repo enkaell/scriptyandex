@@ -25,7 +25,7 @@ def main():
     import psutil
     print('trying to parse xml...')
     k = datetime.datetime.now()
-    xmldoc = parse('t.xml')
+    xmldoc = parse('ostatki.xml')
     print(psutil.virtual_memory().percent)
     print('starting main loop...')
     print(datetime.datetime.now() - k)
@@ -49,18 +49,16 @@ def main():
                 tag.find('count').text = '0'
             else:
                 tag.find('count').text = str(response.json()['balance'])
+
     except Exception as e:
         print(e)
         pass
     xmldoc.write('ostatki.xml', encoding='utf-8')
-    zf = zipfile.ZipFile("yandex.zip", "w", compresslevel=8, compression=zipfile.ZIP_DEFLATED)
-    zf.write('ostatki.xml', compresslevel=8)
     files = {
-        'file': open('yandex.zip', 'rb'),
+        'file': open('ostatki.xml', 'rb'),
     }
-    zf.close()
     time.sleep(5)
-    response = requests.post('https://sima-land-yandex.herokuapp.com/upload', files=files)
+    response = requests.post('http://127.0.0.1:8000/upload', files=files)
     print(response.json())
 
 
