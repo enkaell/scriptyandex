@@ -58,7 +58,7 @@ def main():
         'file': open('ostatki.xml', 'rb'),
     }
     time.sleep(5)
-    response = requests.post('http://127.0.0.1:8000/upload', files=files)
+    response = requests.post('https://sima-land-yandex.herokuapp.com/upload', files=files)
     print(response.json())
 
 
