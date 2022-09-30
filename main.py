@@ -29,6 +29,8 @@ def main():
     print(psutil.virtual_memory().percent)
     print('starting main loop...')
     print(datetime.datetime.now() - k)
+    root = xmldoc.getroot()
+    root.attrib['date'] = str(datetime.datetime.now())[:-7]
     try:
         for tag in xmldoc.iterfind('shop/offers/offer'):
             response = session.get(
