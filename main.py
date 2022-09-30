@@ -7,8 +7,7 @@ import zipfile
 from urllib.request import urlopen
 import datetime
 from xml.etree.ElementTree import parse
-
-
+import xml.etree.cElementTree as ET
 def main():
     print('started')
     json_data = {"password": "RAMTRX1500", "regulation": True, "email": "Rakhmanov-2019@list.ru"}
@@ -19,13 +18,10 @@ def main():
     retry = Retry(connect=3, backoff_factor=1)
     adapter = HTTPAdapter(max_retries=retry)
     session.mount('https://', adapter)
-    print('trying to get xml...')
-    zip = zipfile.ZipFile('origin.zip')
-    zip.extractall()
     import psutil
     print('trying to parse xml...')
     k = datetime.datetime.now()
-    xmldoc = parse('ostatki.xml')
+    xmldoc = parse(source=urlopen('https://1seller.ru/feed/Rahmanov/1.xml'))
     print(psutil.virtual_memory().percent)
     print('starting main loop...')
     print(datetime.datetime.now() - k)
@@ -51,7 +47,7 @@ def main():
                 tag.find('count').text = '0'
             else:
                 tag.find('count').text = str(response.json()['balance'])
-
+                break
     except Exception as e:
         print(e)
         pass
