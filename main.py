@@ -47,7 +47,6 @@ def main():
                 tag.find('count').text = '0'
             else:
                 tag.find('count').text = str(response.json()['balance'])
-                break
     except Exception as e:
         print(e)
         pass
